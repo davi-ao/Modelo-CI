@@ -19,6 +19,7 @@
 
 library(tidyverse)
 library(igraph)
+library(ggraph)
 
 # Leitor A: contra a descriminalização
 C_A = matrix(c(
@@ -238,3 +239,28 @@ plot(G_B,
      vertex.frame.color = '#FFFFFF',
      main = 'Leitor B',
      submain = '(a favor da descriminalização)')
+
+# Com ggraph
+# Leitor A
+ggraph(G_A, layout = 'graphopt') +
+  geom_edge_link(color = "#333333") + 
+  geom_node_point(size = sqrt(pi * strength(G_A)) * 5,
+                  color = "#FF968A") + 
+  geom_node_text(label = V(G_A)$name)
+
+ggsave('leitorA.svg',
+       width = 25,
+       height = 25,
+       units = 'cm')
+
+# Leitor B
+ggraph(G_B, layout = 'graphopt') +
+  geom_edge_link(color = "#333333") + 
+  geom_node_point(size = sqrt(pi * strength(G_B)) * 5,
+                  color = "#FF968A") + 
+  geom_node_text(label = V(G_B)$name)
+
+ggsave('leitorB.svg',
+       width = 25,
+       height = 25,
+       units = 'cm')
